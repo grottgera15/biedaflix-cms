@@ -2,7 +2,7 @@ import { SeriesState } from './types';
 import { RootState } from '../types';
 import SeriesData from '@/classes/SeriesData';
 import { SeriesGetAllParams, SeriesGetParams } from '@/services/params/seriesParams';
-import { MutationTree, ActionTree, Module } from 'vuex';
+import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
 import seriesService from '@/services/seriesService';
 import { AxiosResponse } from 'axios';
 import ServiceError from '@/services/errors/ServiceError';
@@ -11,6 +11,26 @@ import router from '@/router/index';
 const state: SeriesState = {
     series: new Map<String, SeriesData>(),
     errors: new Array<ServiceError>()
+}
+
+const getters: GetterTree<SeriesState, RootState> = {
+    getAllSeries(state: SeriesState) {
+        return state.series;
+    },
+
+    getSeries(state: SeriesState, seriesId: string) {
+        if (state.series.has(seriesId))
+            return state.series.get(seriesId);
+        return undefined;
+    },
+
+    getErrors(state: SeriesState) {
+        return state.errors;
+    },
+
+    getNewestError(state: SeriesState) {
+        return state.errors[state.errors.length-1];
+    }
 }
 
 const mutations: MutationTree<SeriesState> = {
