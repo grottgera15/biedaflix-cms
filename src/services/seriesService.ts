@@ -1,6 +1,6 @@
 import Service from './Service';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import querify from './querify';
+import querify from './methods/querify';
 
 const seriesEndPoint = '/series';
 
