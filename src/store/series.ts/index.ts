@@ -79,9 +79,12 @@ const actions: ActionTree<SeriesState, RootState> = {
     getAllSeries({ commit }, { params }: GetAllSeriesPayload) {
         seriesService.getAll(params,
             (response: AxiosResponse) => {
-                for (const series in response.data) {
-                    console.log(series);
+                const allSeries = new Map<string, SeriesData>();
+                for (const seriesData of response.data) {
+                    const series: SeriesData = new SeriesData(seriesData);
+                    allSeries.set(series.id, series);
                 }
+                commit('setAllSeries', allSeries);
                 commit('clearErrors');
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
