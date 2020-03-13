@@ -37,7 +37,6 @@ export default {
     },
 
     async getAll(callback: Function, params: SeriesGetAllParams, errorCallback: Function) {
-        console.log(querify(params));
         const response: AxiosResponse = await Service.get(`${seriesEndPoint}?${querify(params)}`, axiosRequestConfig);
         response.status === 200 ? callback(response) : errorCallback(response);
     },
