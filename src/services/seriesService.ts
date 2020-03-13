@@ -1,5 +1,6 @@
 import Service from './Service';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
+import { SeriesGetAllParams, SeriesGetParams } from './params/seriesParams';
 import querify from './methods/querify';
 
 const seriesEndPoint = '/series';
@@ -13,18 +14,6 @@ const axiosRequestConfig: AxiosRequestConfig = {
     withCredentials: true
 }
 
-class SeriesGetParams {
-    public showSeasons?: boolean
-}
-
-import SeriesStatus from '@/enums/SeriesStatus';
-class SeriesGetAllParams {
-    public showSeasons?: boolean
-    public status?: SeriesStatus
-    public sourceId?: string
-}
-
-
 export default {
     async create(formData: FormData, callback: Function, errorCallback: Function) {
         const response: AxiosResponse = await Service.post(seriesEndPoint, formData, { headers });
@@ -36,7 +25,7 @@ export default {
         response.status === 200 ? callback(response) : errorCallback(response);
     },
 
-    async getAll(callback: Function, params: SeriesGetAllParams, errorCallback: Function) {
+    async getAll(params: SeriesGetAllParams, callback: Function, errorCallback: Function) {
         const response: AxiosResponse = await Service.get(`${seriesEndPoint}?${querify(params)}`, axiosRequestConfig);
         response.status === 200 ? callback(response) : errorCallback(response);
     },
