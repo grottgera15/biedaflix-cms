@@ -1,7 +1,7 @@
 import EpisodeStatus from '@/enums/EpisodeStatus';
 
 export interface EpisodeDataInterface {
-    id?: string;
+    id: string;
     episodeNumber: number;
     seasonNumber: number;
     name: string;
@@ -12,7 +12,7 @@ export interface EpisodeDataInterface {
 }
 
 export default class EpisodeData {
-    private _id?: string;
+    private _id: string;
     episodeNumber: number;
     seasonNumber: number;
     name: string;

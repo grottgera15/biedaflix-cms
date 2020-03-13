@@ -3,7 +3,7 @@ import EpisodeData from './EpisodeData';
 import SeriesStatus from '@/enums/SeriesStatus';
 
 export interface SeriesDataInterface {
-    id?: string,
+    id: string,
     name: string,
     description: string,
     banner?: URL,
@@ -14,7 +14,7 @@ export interface SeriesDataInterface {
 }
 
 export default class SeriesData {
-    private _id?: string;
+    private _id: string;
     name: string;
     description: string;
     banner?: URL;

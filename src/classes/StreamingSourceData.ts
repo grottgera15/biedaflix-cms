@@ -1,11 +1,11 @@
 export interface StreamingSourceDataInterface {
-    id?: string;
+    id: string;
     name: string;
     path: string;
 }
 
 export default class StreamingSourceData {
-    private _id?: string;
+    private _id: string;
     name: string;
     path: URL;
 
