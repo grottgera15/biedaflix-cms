@@ -3,23 +3,23 @@ import EpisodeStatus from '@/enums/EpisodeStatus';
 export interface EpisodeDataInterface {
     id: string;
     episodeNumber: number;
-    seasonNumber: number;
+    seasonNumber: string;
     name: string;
     status: EpisodeStatus;
-    videoSources?: Map<number, URL>
-    subtitles?: Map<string, URL>
-    thumbs?: Array<URL>
+    videoSources?: Map<number, URL>;
+    subtitles?: Map<string, URL>;
+    thumbs?: Array<URL>;
 }
 
 export default class EpisodeData {
     readonly id: string;
     episodeNumber: number;
-    seasonNumber: number;
+    seasonNumber: string;
     name: string;
     status: EpisodeStatus;
-    videoSources?: Map<number, URL>
-    subtitles?: Map<string, URL>
-    thumbs?: Array<URL>
+    videoSources?: Map<number, URL>;
+    subtitles?: Map<string, URL>;
+    thumbs?: Array<URL>;
 
     constructor({ id, episodeNumber, seasonNumber, name, status, videoSources, subtitles, thumbs }: EpisodeDataInterface) {
         this.id = id;
