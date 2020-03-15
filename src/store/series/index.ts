@@ -51,11 +51,11 @@ const mutations: MutationTree<SeriesState> = {
     }
 }
 
-interface GetAllSeriesPayload {
+interface LoadAllSeriesPayload {
     params: SeriesGetAllParams
 }
 
-interface GetSeriesPayload {
+interface LoadSeriesPayload {
     seriesId: string,
     params: SeriesGetParams
 }
@@ -76,25 +76,20 @@ interface deleteSeriesPayload {
 }
 
 const actions: ActionTree<SeriesState, RootState> = {
-    getAllSeries({ commit }, { params }: GetAllSeriesPayload) {
+    loadAllSeries({ commit }, { params }: LoadAllSeriesPayload) {
         seriesService.getAll(params,
             (response: AxiosResponse) => {
-                const allSeries = new Map<string, SeriesData>();
-                for (const seriesData of response.data) {
-                    const series: SeriesData = new SeriesData(seriesData);
-                    allSeries.set(series.id, series);
-                }
-                commit('setAllSeries', allSeries);
+                commit('setAllSeries', response.data as SeriesData[]);
                 commit('clearErrors');
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             })
     },
 
-    getSeries({ commit }, { seriesId, params }: GetSeriesPayload) {
+    loadSeries({ commit }, { seriesId, params }: LoadSeriesPayload) {
         seriesService.get(seriesId, params,
             (response: AxiosResponse) => {
-                commit('setSeries', new SeriesData(response.data));
+                commit('setSeries', response.data as SeriesData);
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             });
@@ -136,6 +131,7 @@ const actions: ActionTree<SeriesState, RootState> = {
 const namespaced = true;
 export const series: Module<SeriesState, RootState> = {
     namespaced,
+    getters,
     state,
     mutations,
     actions
