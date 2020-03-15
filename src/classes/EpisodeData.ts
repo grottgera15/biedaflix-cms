@@ -12,7 +12,7 @@ export interface EpisodeDataInterface {
 }
 
 export default class EpisodeData {
-    private _id: string;
+    readonly id: string;
     episodeNumber: number;
     seasonNumber: number;
     name: string;
@@ -21,12 +21,8 @@ export default class EpisodeData {
     subtitles?: Map<string, URL>
     thumbs?: Array<URL>
 
-    get id() {
-        return this._id;
-    }
-
     constructor({ id, episodeNumber, seasonNumber, name, status, videoSources, subtitles, thumbs }: EpisodeDataInterface) {
-        this._id = id;
+        this.id = id;
         this.episodeNumber = episodeNumber;
         this.seasonNumber = seasonNumber;
         this.name = name;

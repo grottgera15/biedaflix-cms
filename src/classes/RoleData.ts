@@ -7,16 +7,12 @@ interface RoleDataInterface {
 }
 
 export default class RoleData {
-    private _id: string;
+    readonly id: string;
     public name: string;
     public allowedOperations: Array<Authorities>;
-    
-    get id() {
-        return this._id;
-    }
 
     constructor({id, name, allowedOperations}: RoleDataInterface) {
-        this._id = id;
+        this.id = id;
         this.name = name;
         this.allowedOperations = allowedOperations;
     }

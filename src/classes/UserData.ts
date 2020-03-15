@@ -9,18 +9,14 @@ interface UserDataInterface {
 }
 
 export default class UserData{
-    private _id: string;
+    readonly id: string;
     public email: string;
     public username: string;
     public roles?: Array<RoleData>;
     public accepted?: boolean;
 
-    get id() {
-        return this._id;
-    }
-
     constructor({id, email, username, roles, accepted}: UserDataInterface) {
-        this._id = id;
+        this.id = id;
         this.email = email;
         this.username = username;
         this.roles = roles;

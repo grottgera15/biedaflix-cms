@@ -5,16 +5,12 @@ export interface StreamingSourceDataInterface {
 }
 
 export default class StreamingSourceData {
-    private _id: string;
+    readonly id: string;
     name: string;
     path: URL;
 
-    get id() {
-        return this._id;
-    }
-
     constructor({ id, name, path }: StreamingSourceDataInterface) {
-        this._id = id;
+        this.id = id;
         this.name = name;
         this.path = new URL(path);
     }
