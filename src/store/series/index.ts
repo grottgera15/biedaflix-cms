@@ -1,12 +1,8 @@
 import { SeriesState } from './types';
 import { RootState } from '../types';
 import SeriesData from '@/classes/SeriesData';
-import { SeriesGetAllParams, SeriesGetParams } from '@/services/params/seriesParams';
-import { MutationTree, ActionTree, Module, GetterTree } from 'vuex';
-import seriesService from '@/services/seriesService';
-import { AxiosResponse } from 'axios';
+import { MutationTree, Module, GetterTree } from 'vuex';
 import ServiceError from '@/services/errors/ServiceError';
-import router from '@/router/index';
 
 const state: SeriesState = {
     series: new Map<string, SeriesData>(),
@@ -29,7 +25,7 @@ const getters: GetterTree<SeriesState, RootState> = {
     },
 
     getNewestError(state: SeriesState) {
-        return state.errors[state.errors.length-1];
+        return state.errors[state.errors.length - 1];
     }
 }
 
@@ -51,88 +47,14 @@ const mutations: MutationTree<SeriesState> = {
     }
 }
 
-interface LoadAllSeriesPayload {
-    params: SeriesGetAllParams;
-}
-
-interface LoadSeriesPayload {
-    seriesId: string;
-    params: SeriesGetParams;
-}
-
-interface CreateSeriesPayload {
-    formData: FormData;
-    RouteOnSuccess: boolean;
-}
-const createSeriesSuccessRoute = '/series';
-
-interface UpdateSeriesPayload {
-    seriesId: string;
-    formData: FormData;
-}
-
-interface DeleteSeriesPayload {
-    seriesId: string;
-}
-
-const actions: ActionTree<SeriesState, RootState> = {
-    loadAllSeries({ commit }, { params }: LoadAllSeriesPayload) {
-        seriesService.getAll(params,
-            (response: AxiosResponse) => {
-                commit('setAllSeries', response.data as SeriesData[]);
-                commit('clearErrors');
-            }, (error: AxiosResponse) => {
-                commit('addError', error.data);
-            })
-    },
-
-    loadSeries({ commit }, { seriesId, params }: LoadSeriesPayload) {
-        seriesService.get(seriesId, params,
-            (response: AxiosResponse) => {
-                commit('setSeries', response.data as SeriesData);
-            }, (error: AxiosResponse) => {
-                commit('addError', error.data);
-            });
-    },
-
-    createSeries({ commit }, { formData, RouteOnSuccess }: CreateSeriesPayload) {
-        seriesService.create(formData,
-            (response: AxiosResponse) => {
-                const series = new SeriesData(response.data);
-                commit('setSeries', series);
-                if (RouteOnSuccess)
-                    router.push({ path: `${createSeriesSuccessRoute}/${series.id}` });
-            }, (error: AxiosResponse) => {
-                commit('addError', error.data);
-            });
-    },
-
-    updateSeries({ commit }, { seriesId, formData }: UpdateSeriesPayload) {
-        seriesService.update(seriesId, formData,
-            (response: AxiosResponse) => {
-                const series = new SeriesData(response.data);
-                commit('setSeries', series);
-            }, (error: AxiosResponse) => {
-                commit('addError', error.data);
-            });
-    },
-
-    deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
-        seriesService.delete(seriesId,
-            (response: AxiosResponse) => {
-                commit('deleteSeries', seriesId);
-            }, (error: AxiosResponse) => {
-                commit('addError', error.data);
-            });
-    }
-
-}
+import { actionsSeries } from './actionsSeries';
 
 const namespaced = true;
+
 export const series: Module<SeriesState, RootState> = {
     namespaced,
     getters,
     state,
     mutations,
-    actions
+    actions: Object.assign(actionsSeries)
 }
