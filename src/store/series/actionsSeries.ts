@@ -39,7 +39,7 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
                 commit('setAllSeries', response.data as SeriesData[]);
                 commit('clearErrors');
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             });
     },
     async loadSeries({ commit }, { seriesId, params }: LoadSeriesPayload) {
@@ -47,7 +47,7 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
             (response: AxiosResponse) => {
                 commit('setSeries', response.data as SeriesData);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             });
     },
     async createSeries({ commit }, { formData, RouteOnSuccess }: CreateSeriesPayload) {
@@ -58,7 +58,7 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
                 if (RouteOnSuccess)
                     router.push({ path: `${createSeriesSuccessRoute}/${series.id}` });
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             });
     },
     async updateSeries({ commit }, { seriesId, formData }: UpdateSeriesPayload) {
@@ -67,7 +67,7 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
                 const series = new SeriesData(response.data);
                 commit('setSeries', series);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             });
     },
     async deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
@@ -75,7 +75,7 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
             (response: AxiosResponse) => {
                 commit('deleteSeries', seriesId);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             });
     }
 }

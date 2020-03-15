@@ -26,7 +26,7 @@ const actionEpisode: ActionTree<SeriesState, RootState> = {
             episodeService.create(episodeForm, (response: AxiosResponse) => {
                 commit('appendEpisode', { seriesId: episodeForm.seriesId, episodeData: new EpisodeData(response.data) });
             }, (error: AxiosResponse) => {
-                commit('addError', error.data, { root: true });
+                commit('addError', error.data);
             })
         }
     }

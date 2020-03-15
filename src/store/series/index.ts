@@ -4,16 +4,22 @@ import SeriesData from '@/classes/SeriesData';
 import { MutationTree, Module, GetterTree } from 'vuex';
 
 const state: SeriesState = {
-    series: new Array<SeriesData>()
+    series: new Array<SeriesData>(),
+    errors: new Array<ServiceError>(),
 }
 
 const getters: GetterTree<SeriesState, RootState> = {
     getAllSeries(state: SeriesState) {
         return state.series;
     },
-
     getSeries: (state: SeriesState) => (seriesId: string) => {
         return state.series.find(series => series.id === seriesId);
+    },
+    getErrors(state: SeriesState) {
+        return state.errors;
+    },
+    getNewestError(state: SeriesState) {
+        return state.errors[state.errors.length - 1];
     }
 }
 
@@ -36,12 +42,20 @@ const mutations: MutationTree<SeriesState> = {
         if (!seasons?.has(params.episodeData.seasonNumber))
             seasons?.set(params.episodeData.seasonNumber, new Array<EpisodeData>());
         seasons?.get(params.episodeData.seasonNumber)?.push(params.episodeData);
+    },
+    
+    addError(state: SeriesState, error: ServiceError) {
+        state.errors.push(error);
+    },
+    clearErrors(state: SeriesState) {
+        state.errors = new Array<ServiceError>();
     }
 }
 
 import { actionsSeries } from './actionsSeries';
 import { actionEpisode } from './actionsEpisode';
 import EpisodeData from '@/classes/EpisodeData';
+import ServiceError from '@/services/errors/ServiceError';
 
 const namespaced = true;
 
