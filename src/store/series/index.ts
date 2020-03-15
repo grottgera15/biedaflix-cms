@@ -2,11 +2,9 @@ import { SeriesState } from './types';
 import { RootState } from '../types';
 import SeriesData from '@/classes/SeriesData';
 import { MutationTree, Module, GetterTree } from 'vuex';
-import ServiceError from '@/services/errors/ServiceError';
 
 const state: SeriesState = {
-    series: new Map<string, SeriesData>(),
-    errors: new Array<ServiceError>()
+    series: new Array<SeriesData>()
 }
 
 const getters: GetterTree<SeriesState, RootState> = {
@@ -14,40 +12,36 @@ const getters: GetterTree<SeriesState, RootState> = {
         return state.series;
     },
 
-    getSeries(state: SeriesState, seriesId: string) {
-        if (state.series.has(seriesId))
-            return state.series.get(seriesId);
-        return undefined;
-    },
-
-    getErrors(state: SeriesState) {
-        return state.errors;
-    },
-
-    getNewestError(state: SeriesState) {
-        return state.errors[state.errors.length - 1];
+    getSeries: (state: SeriesState) => (seriesId: string) => {
+        return state.series.find(series => series.id === seriesId);
     }
 }
 
 const mutations: MutationTree<SeriesState> = {
-    setAllSeries(state: SeriesState, series: Map<string, SeriesData>) {
+    setAllSeries(state: SeriesState, series: Array<SeriesData>) {
         state.series = series;
     },
     setSeries(state: SeriesState, series: SeriesData) {
-        state.series.set(series.id, series);
+        state.series.push(series);
     },
-    deleteSeries(state: SeriesState, seriesId: string) {
-        state.series.delete(seriesId);
+    deleteSeries(state: SeriesState, seriesId) {
+        const seriesIndex = state.series.findIndex(series => series.id === seriesId);
+        state.series.splice(seriesIndex, 1);
     },
-    addError(state: SeriesState, error: ServiceError) {
-        state.errors.push(error);
-    },
-    clearErrors(state: SeriesState) {
-        state.errors = new Array<ServiceError>();
+
+    appendEpisode(state: SeriesState, params: { seriesId: string; episodeData: EpisodeData }) {
+        const seasons = state.series.find(series => series.id === params.seriesId)?.seasons;
+        if (!seasons)
+            throw new ReferenceError(`Freeman you fool!`);
+        if (!seasons?.has(params.episodeData.seasonNumber))
+            seasons?.set(params.episodeData.seasonNumber, new Array<EpisodeData>());
+        seasons?.get(params.episodeData.seasonNumber)?.push(params.episodeData);
     }
 }
 
 import { actionsSeries } from './actionsSeries';
+import { actionEpisode } from './actionsEpisode';
+import EpisodeData from '@/classes/EpisodeData';
 
 const namespaced = true;
 
@@ -56,5 +50,5 @@ export const series: Module<SeriesState, RootState> = {
     getters,
     state,
     mutations,
-    actions: Object.assign(actionsSeries)
+    actions: Object.assign(actionsSeries, actionEpisode)
 }

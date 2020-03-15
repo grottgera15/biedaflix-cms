@@ -12,7 +12,6 @@ import jwt from 'jsonwebtoken';
 
 const state: ClientState = {
     account: undefined,
-    errors: new Array<ServiceError>()
 }
 
 const getters: GetterTree<ClientState, RootState> = {
@@ -22,14 +21,10 @@ const getters: GetterTree<ClientState, RootState> = {
 }
 
 const mutations: MutationTree<ClientState> = {
-    clearErrors(state: ClientState) {
-        state.errors = new Array<ServiceError>();
-    },
     setAccount(state: ClientState, account: UserData) {
         state.account = account;
     },
-    setLoginFailure(state: ClientState, error: ServiceError) {
-        state.errors.push(error);
+    setLoginFailure(state: ClientState) {
         state.account = null;
     }
 }
@@ -47,10 +42,10 @@ const actions: ActionTree<ClientState, RootState> = {
                 throw new ReferenceError(`${jwtCookie} payload is invalid!`);
             const account = new UserData(payload.user);
             dispatch('startTokenRefreshing');
-            commit('clearErrors');
             commit('setAccount', account);
         }, (response: AxiosResponse) => {
-            commit('setLoginFailure', response.data);
+            commit('addError', response.data, {root: true});
+            commit('setLoginFailure');
         })
     },
     startTokenRefreshing({ dispatch }) {

@@ -6,6 +6,7 @@ import { ActionTree } from 'vuex';
 import { SeriesState } from './types';
 import { RootState } from '../types';
 import SeriesData from '@/classes/SeriesData';
+import ServiceError from '@/services/errors/ServiceError';
 
 interface LoadAllSeriesPayload {
     params: SeriesGetAllParams;
@@ -32,49 +33,49 @@ interface DeleteSeriesPayload {
 }
 
 const actionsSeries: ActionTree<SeriesState, RootState> = {
-    loadAllSeries({ commit }, { params }: LoadAllSeriesPayload) {
-        seriesService.getAll(params,
+    async loadAllSeries({ commit }, { params }: LoadAllSeriesPayload) {
+        await seriesService.getAll(params,
             (response: AxiosResponse) => {
                 commit('setAllSeries', response.data as SeriesData[]);
                 commit('clearErrors');
             }, (error: AxiosResponse) => {
-                commit('addError', error.data);
+                commit('addError', error.data, { root: true });
             });
     },
-    loadSeries({ commit }, { seriesId, params }: LoadSeriesPayload) {
-        seriesService.get(seriesId, params,
+    async loadSeries({ commit }, { seriesId, params }: LoadSeriesPayload) {
+        await seriesService.get(seriesId, params,
             (response: AxiosResponse) => {
                 commit('setSeries', response.data as SeriesData);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data);
+                commit('addError', error.data, { root: true });
             });
     },
-    createSeries({ commit }, { formData, RouteOnSuccess }: CreateSeriesPayload) {
-        seriesService.create(formData,
+    async createSeries({ commit }, { formData, RouteOnSuccess }: CreateSeriesPayload) {
+        await seriesService.create(formData,
             (response: AxiosResponse) => {
                 const series = new SeriesData(response.data);
                 commit('setSeries', series);
                 if (RouteOnSuccess)
                     router.push({ path: `${createSeriesSuccessRoute}/${series.id}` });
             }, (error: AxiosResponse) => {
-                commit('addError', error.data);
+                commit('addError', error.data, { root: true });
             });
     },
-    updateSeries({ commit }, { seriesId, formData }: UpdateSeriesPayload) {
-        seriesService.update(seriesId, formData,
+    async updateSeries({ commit }, { seriesId, formData }: UpdateSeriesPayload) {
+        await seriesService.update(seriesId, formData,
             (response: AxiosResponse) => {
                 const series = new SeriesData(response.data);
                 commit('setSeries', series);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data);
+                commit('addError', error.data, { root: true });
             });
     },
-    deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
-        seriesService.delete(seriesId,
+    async deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
+        await seriesService.delete(seriesId,
             (response: AxiosResponse) => {
                 commit('deleteSeries', seriesId);
             }, (error: AxiosResponse) => {
-                commit('addError', error.data);
+                commit('addError', error.data, { root: true });
             });
     }
 }
