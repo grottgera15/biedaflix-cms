@@ -9,7 +9,7 @@ import ServiceError from '@/services/errors/ServiceError';
 import router from '@/router/index';
 
 const state: SeriesState = {
-    series: new Map<String, SeriesData>(),
+    series: new Map<string, SeriesData>(),
     errors: new Array<ServiceError>()
 }
 
@@ -34,7 +34,7 @@ const getters: GetterTree<SeriesState, RootState> = {
 }
 
 const mutations: MutationTree<SeriesState> = {
-    setAllSeries(state: SeriesState, series: Map<String, SeriesData>) {
+    setAllSeries(state: SeriesState, series: Map<string, SeriesData>) {
         state.series = series;
     },
     setSeries(state: SeriesState, series: SeriesData) {
@@ -52,27 +52,27 @@ const mutations: MutationTree<SeriesState> = {
 }
 
 interface LoadAllSeriesPayload {
-    params: SeriesGetAllParams
+    params: SeriesGetAllParams;
 }
 
 interface LoadSeriesPayload {
-    seriesId: string,
-    params: SeriesGetParams
+    seriesId: string;
+    params: SeriesGetParams;
 }
 
-interface createSeriesPayload {
-    formData: FormData,
-    RouteOnSuccess: boolean
+interface CreateSeriesPayload {
+    formData: FormData;
+    RouteOnSuccess: boolean;
 }
 const createSeriesSuccessRoute = '/series';
 
-interface updateSeriesPayload {
-    seriesId: string,
-    formData: FormData
+interface UpdateSeriesPayload {
+    seriesId: string;
+    formData: FormData;
 }
 
-interface deleteSeriesPayload {
-    seriesId: string
+interface DeleteSeriesPayload {
+    seriesId: string;
 }
 
 const actions: ActionTree<SeriesState, RootState> = {
@@ -95,7 +95,7 @@ const actions: ActionTree<SeriesState, RootState> = {
             });
     },
 
-    createSeries({ commit }, { formData, RouteOnSuccess }: createSeriesPayload) {
+    createSeries({ commit }, { formData, RouteOnSuccess }: CreateSeriesPayload) {
         seriesService.create(formData,
             (response: AxiosResponse) => {
                 const series = new SeriesData(response.data);
@@ -107,7 +107,7 @@ const actions: ActionTree<SeriesState, RootState> = {
             });
     },
 
-    updateSeries({ commit }, { seriesId, formData }: updateSeriesPayload) {
+    updateSeries({ commit }, { seriesId, formData }: UpdateSeriesPayload) {
         seriesService.update(seriesId, formData,
             (response: AxiosResponse) => {
                 const series = new SeriesData(response.data);
@@ -117,7 +117,7 @@ const actions: ActionTree<SeriesState, RootState> = {
             });
     },
 
-    deleteSeries({ commit }, { seriesId }: deleteSeriesPayload) {
+    deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
         seriesService.delete(seriesId,
             (response: AxiosResponse) => {
                 commit('deleteSeries', seriesId);
