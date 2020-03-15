@@ -13,8 +13,8 @@ const axiosRequestConfig: AxiosRequestConfig = {
 }
 
 export default {
-    async create(formData: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.post(episodeEndPoint, formData, { headers });
+    async create(data: object, callback: Function, errorCallback: Function) {
+        const response: AxiosResponse = await Service.post(episodeEndPoint, data, { headers });
         response.status === 201 ? callback() : errorCallback(response);
     },
 
@@ -23,8 +23,8 @@ export default {
         response.status === 200 ? callback(response) : errorCallback(response);
     },
 
-    async update(episodeId: string, formData: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.patch(`${episodeEndPoint}/${episodeId}`, formData, axiosRequestConfig);
+    async update(episodeId: string, data: object, callback: Function, errorCallback: Function) {
+        const response: AxiosResponse = await Service.patch(`${episodeEndPoint}/${episodeId}`, data, axiosRequestConfig);
         response.status === 200 ? callback(response) : errorCallback(response);
     },
 
