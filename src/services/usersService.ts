@@ -13,9 +13,14 @@ const axiosRequestConfig: AxiosRequestConfig = {
 }
 
 export default {
-    async create(formData: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.post(usersEndPoint, formData, { headers });
+    async create(body: FormData, callback: Function, errorCallback: Function) {
+        const response: AxiosResponse = await Service.post(usersEndPoint, body, { headers });
         response.status === 201 ? callback() : errorCallback(response);
+    },
+
+    async update(body: FormData, userId: string, callback: Function, errorCallback: Function) {
+        const response: AxiosResponse = await Service.patch(`${usersEndPoint}/${userId}`, body, axiosRequestConfig);
+        response.status === 200 ? callback(response) : errorCallback(response);
     },
 
     async get(userId: string, callback: Function, errorCallback: Function) {
@@ -25,11 +30,6 @@ export default {
 
     async getAll(callback: Function, errorCallback: Function) {
         const response: AxiosResponse = await Service.get(usersEndPoint, axiosRequestConfig);
-        response.status === 200 ? callback(response) : errorCallback(response);
-    },
-
-    async update(userId: string, formData: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.patch(`${usersEndPoint}/${userId}`, formData, axiosRequestConfig);
         response.status === 200 ? callback(response) : errorCallback(response);
     },
 

@@ -10,8 +10,8 @@ const headers = {
 }
 
 export default {
-    async login(formData: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.post(loginEndPoint, formData, { headers });
+    async login(body: FormData, callback: Function, errorCallback: Function) {
+        const response: AxiosResponse = await Service.post(loginEndPoint, body, { headers });
         (response.status === 200) ? callback(response) : errorCallback(response);
     },
 
