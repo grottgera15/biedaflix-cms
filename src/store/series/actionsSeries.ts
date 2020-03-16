@@ -30,6 +30,7 @@ interface UpdateSeriesPayload {
 
 interface DeleteSeriesPayload {
     seriesId: string;
+    routeOnSuccess?: string;
 }
 
 const actionsSeries: ActionTree<SeriesState, RootState> = {
@@ -37,7 +38,6 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
         await seriesService.getAll(params,
             (response: AxiosResponse) => {
                 commit('setAllSeries', response.data as SeriesData[]);
-                commit('clearErrors');
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             });
@@ -52,29 +52,27 @@ const actionsSeries: ActionTree<SeriesState, RootState> = {
     },
     async createSeries({ commit }, { body, routeOnSuccess }: CreateSeriesPayload) {
         await seriesService.create(body,
-            (response: AxiosResponse) => {
-                const series = new SeriesData(response.data);
+            () => {
                 if (routeOnSuccess)
-                    router.push({ path: `${routeOnSuccess}/${series.id}` });
-                else
-                    commit('setSeries', series);
+                    router.push({ path: `${routeOnSuccess}` });
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             });
     },
-    async updateSeries({ commit }, { body, seriesId }: UpdateSeriesPayload) {
+    async updateSeries({ commit }, { body, seriesId, routeOnSuccess }: UpdateSeriesPayload) {
         await seriesService.update(body, seriesId,
-            (response: AxiosResponse) => {
-                const series = new SeriesData(response.data);
-                commit('setSeries', series);
+            () => {
+                if (routeOnSuccess)
+                    router.push({ path: `${routeOnSuccess}` });
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             });
     },
-    async deleteSeries({ commit }, { seriesId }: DeleteSeriesPayload) {
+    async deleteSeries({ commit }, { seriesId, routeOnSuccess }: DeleteSeriesPayload) {
         await seriesService.delete(seriesId,
             () => {
-                commit('deleteSeries', seriesId);
+                if (routeOnSuccess)
+                    router.push({ path: `${routeOnSuccess}` });
             }, (error: AxiosResponse) => {
                 commit('addError', error.data);
             });

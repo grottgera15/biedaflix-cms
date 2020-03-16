@@ -30,13 +30,14 @@ const mutations: MutationTree<SeriesState> = {
         const seriesIndex = state.series.findIndex(series => series.id === seriesId);
         state.series.splice(seriesIndex, 1);
     },
-    appendEpisode(state: SeriesState, episode: EpisodeData) {
-        const series = state.series.find(series => series.id === episode.id);
-        series?.seasons?.get(episode.seasonNumber)?.push(episode);
-    },
-    deleteEpisode(state: SeriesState, episodeId: string) {
-        const series = state.series.find(series => series.id === episodeId);
-
+    setEpisode(state: SeriesState, seriesWithEpisode: SeriesData) {
+        const index = state.series.findIndex(series => series.id === seriesWithEpisode.id);
+        if (!index) {
+            state.series.push(seriesWithEpisode);
+        } else {
+            const episode = state.series[index].episodes.findIndex(episode => episode.id === seriesWithEpisode.episodes[0].id);
+            episode ? state.series[index].episodes[episode] = seriesWithEpisode.episodes[0] : state.series[index].episodes.push(seriesWithEpisode.episodes[0]);
+        }
     }
 }
 

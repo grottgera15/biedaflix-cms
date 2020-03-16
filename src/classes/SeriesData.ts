@@ -9,7 +9,7 @@ export interface SeriesDataInterface {
     logo?: URL;
     streamingSourceId: string;
     status: SeriesStatus;
-    seasons?: Map<string, Array<EpisodeData>>;
+    episodes: Array<EpisodeData>;
 }
 
 export default class SeriesData {
@@ -20,9 +20,9 @@ export default class SeriesData {
     logo?: URL;
     streamingSourceId: string;
     status: SeriesStatus;
-    seasons?: Map<string, Array<EpisodeData>>;
+    episodes: Array<EpisodeData>;
 
-    constructor({ id, name, description, banner, logo, streamingSourceId, status, seasons }: SeriesDataInterface) {
+    constructor({ id, name, description, banner, logo, streamingSourceId, status, episodes }: SeriesDataInterface) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +30,6 @@ export default class SeriesData {
         this.logo = logo;
         this.streamingSourceId = streamingSourceId;
         this.status = status;
-        this.seasons = seasons;
+        this.episodes = episodes;
     }
 }
