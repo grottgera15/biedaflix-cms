@@ -14,7 +14,7 @@ const axiosRequestConfig: AxiosRequestConfig = {
 
 export default {
     async create(body: FormData, callback: Function, errorCallback: Function) {
-        const response: AxiosResponse = await Service.post(episodeEndPoint, body, { headers });
+        const response: AxiosResponse = await Service.post(episodeEndPoint, body, axiosRequestConfig);
         response.status === 201 ? callback() : errorCallback(response);
     },
 

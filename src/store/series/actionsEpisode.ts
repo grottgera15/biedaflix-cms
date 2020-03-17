@@ -3,10 +3,9 @@ import { SeriesState } from './types';
 import { RootState } from '../types';
 
 import episodeService from '@/services/episodeService';
-import EpisodeData from '@/classes/EpisodeData';
 import { AxiosResponse } from 'axios';
 import router from '@/router';
-import SeriesData, { SeriesDataInterface } from '@/classes/SeriesData';
+import SeriesData from '@/classes/SeriesData';
 
 
 
@@ -22,7 +21,7 @@ interface UpdateEpisodePayload {
 }
 
 interface LoadEpisodePayload {
-    episodeId: string
+    episodeId: string;
 }
 
 interface DeleteEpisodePayload {
