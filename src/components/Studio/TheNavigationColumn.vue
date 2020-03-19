@@ -81,6 +81,13 @@ export default class TheNavigationColumn extends Vue {
         transition-duration: .2s
         color: $white-color
         opacity: .5
+        position: relative
+
+        &::before
+            content: ""
+            transition-duration: .2s
+            opacity: 0
+            width: 0px
 
         &__button
             padding: 1em 2em
@@ -100,5 +107,13 @@ export default class TheNavigationColumn extends Vue {
             
     &__element--active
         opacity: 1
+
+        &::before
+            opacity: 1
+            position: absolute
+            content: ""
+            height: 100%
+            width: 4px
+            background-color: $white-color
 
 </style>
