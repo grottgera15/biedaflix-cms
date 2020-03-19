@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import StudioSeries from '@/views/Studio/Series';
+import StudioSeries from '@/views/Studio/Series.vue';
 
 Vue.use(VueRouter)
 
@@ -20,6 +20,21 @@ const routes = [
                 path: '/studio/series',
                 name: 'Seriale',
                 component: StudioSeries
+            },
+            {
+                path: '/studio/sources',
+                name: 'Źródła',
+                // components: StudioSeries
+            },
+            {
+                path: '/studio/users',
+                name: 'Użytkownicy',
+                // components: StudioSeries
+            },
+            {
+                path: '/studio/roles',
+                name: 'Role',
+                // components: StudioSeries
             }
         ]
     }
