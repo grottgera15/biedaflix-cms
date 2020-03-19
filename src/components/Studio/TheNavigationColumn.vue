@@ -11,7 +11,7 @@
                     class="material-icons studio__navigation-column__element__button__icon"
                     v-html="path.icon"
                 />
-                {{path.name}}
+                <span class="studio__navigation-column__element__button__title">{{path.name}}</span>
             </router-link>
         </li>
     </ul>
@@ -89,7 +89,12 @@ export default class TheNavigationColumn extends Vue {
 
             &__icon
                 margin-right: .5em
+                @media (max-width: $query-768)
+                    margin-right: unset
 
+            &__title
+                @media (max-width: $query-768)
+                    display: none
         &:hover
             opacity: 1
             

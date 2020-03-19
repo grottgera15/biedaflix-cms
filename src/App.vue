@@ -14,12 +14,12 @@ export default class App extends Vue {
 
 <style lang="sass">
 @import "@/styles/variables.sass"
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900&display=swap')
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap')
 
 body
     background-color: $dark-color
     color: $white-color
-    font-family: 'Source Sans Pro', sans-serif
+    font-family: 'Roboto', sans-serif
     margin: 0
     padding: 0  
 

@@ -27,4 +27,5 @@ export default class Studio extends Vue {}
         &__navigation-column
 
         &__views
+            width: 100%
 </style>
