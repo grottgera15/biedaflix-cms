@@ -1,7 +1,8 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import VueRouter, { RouteConfig } from 'vue-router'
+import Home from '@/views/Home.vue'
 import StudioSeries from '@/views/Studio/Series.vue';
+import StudioSources from '@/views/Studio/Sources.vue';
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,7 @@ const routes = [
             {
                 path: '/studio/sources',
                 name: 'Źródła',
-                // components: StudioSeries
+                component: StudioSources
             },
             {
                 path: '/studio/users',
@@ -38,7 +39,7 @@ const routes = [
             }
         ]
     }
-]
+] as RouteConfig[];
 
 const router = new VueRouter({
     mode: 'history',
