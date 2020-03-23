@@ -2,14 +2,14 @@
     <div>
         <v-studio-list @active="activeSeries = $event">
             <template v-slot:header>
-                <v-studio-list-header class="header">
+                <div class="header">
                     <div class="header__info" @click="titleSorting = !titleSorting">
                         Tytuł
                         <v-material-icon>sort</v-material-icon>
                     </div>
                     <div class="header__status">Status</div>
                     <div class="header__episodes">Odcinki</div>
-                </v-studio-list-header>
+                </div>
             </template>
             <v-studio-list-element
                 class="element"
@@ -46,14 +46,12 @@ import SeriesStatus from "@/enums/SeriesStatus";
 import { LoadingBus } from "@/events/eventBus";
 
 import MaterialIcon from "@/components/Icons/MaterialIcon.vue";
-import StudioListHeader from "@/components/Studio/StudioListHeader.vue";
 import StudioList from "@/components/Studio/StudioList.vue";
 import StudioListElement from "@/components/Studio/StudioListElement.vue";
 
 @Component({
     components: {
         "v-material-icon": MaterialIcon,
-        "v-studio-list-header": StudioListHeader,
         "v-studio-list": StudioList,
         "v-studio-list-element": StudioListElement
     },
@@ -101,6 +99,9 @@ export default class StudioSeries extends Vue {
 
 <style lang="sass" scoped>
 @import '@/styles/variables'
+.header
+    display: grid
+
 .element,
 .header
     grid-template-columns: 60% 10% 10% 1fr

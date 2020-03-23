@@ -1,6 +1,8 @@
 <template>
-    <div class="container">
-        <slot name="header" />
+    <div class="container" @scroll="onScroll">
+        <v-studio-list-header :shadow="scrolled">
+            <slot name="header" />
+        </v-studio-list-header>
         <ol class="studio-list" ref="list">
             <slot />
         </ol>
@@ -10,9 +12,23 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import StudioListHeader from "./StudioListHeader.vue";
 
-@Component
+@Component({
+    components: {
+        "v-studio-list-header": StudioListHeader
+    }
+})
 export default class StudioList extends Vue {
+    scrolled = false;
+
+    onScroll(event: MouseEvent) {
+        if (event.srcElement instanceof HTMLElement)
+            event.srcElement.scrollTop > 0
+                ? (this.scrolled = true)
+                : (this.scrolled = false);
+    }
+
     updated() {
         this.setUpEvents();
     }
