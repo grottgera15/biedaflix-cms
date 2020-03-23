@@ -1,21 +1,22 @@
 <template>
     <div>
-        <ul class="series-list">
-            <div class="series-list__header">
-                <div class="series-list__header__info" @click="titleSorting = !titleSorting">
-                    Tytuł
-                    <v-material-icon>sort</v-material-icon>
+        <v-studio-list class="series-list" @active="activeSeries = $event">
+            <template v-slot:header>
+                <div class="series-list__header">
+                    <div class="series-list__header__info" @click="titleSorting = !titleSorting">
+                        Tytuł
+                        <v-material-icon>sort</v-material-icon>
+                    </div>
+                    <div class="series-list__header__status">Status</div>
+                    <div class="series-list__header__episodes">Odcinki</div>
                 </div>
-                <div class="series-list__header__status">Status</div>
-                <div class="series-list__header__episodes">Odcinki</div>
-            </div>
+            </template>
             <li
                 class="series-list__element"
                 :class="{'series-list__element--not-active': (activeSeries !== null && _series.id !== activeSeries)}"
+                :id="_series.id"
                 v-for="_series in seriesSorted"
                 :key="_series.id"
-                @mouseenter="activeSeries=_series.id"
-                @mouseleave="activeSeries=null"
             >
                 <div class="series-list__element__info">
                     <div class="series-list__element__info__name">{{_series.name}}</div>
@@ -31,7 +32,7 @@
                     <i class="material-icons" style="font-size: 1em">edit</i>
                 </div>
             </li>
-        </ul>
+        </v-studio-list>
     </div>
 </template>
 
@@ -47,10 +48,12 @@ import SeriesStatus from "@/enums/SeriesStatus";
 import { LoadingBus } from "@/events/eventBus";
 
 import MaterialIcon from "@/components/Icons/MaterialIcon.vue";
+import StudioList from "@/components/Studio/StudioList.vue";
 
 @Component({
     components: {
-        "v-material-icon": MaterialIcon
+        "v-material-icon": MaterialIcon,
+        "v-studio-list": StudioList
     },
     computed: {
         seriesSorted(): Array<SeriesData> {
