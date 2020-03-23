@@ -93,11 +93,15 @@ export default class TheNavigationColumn extends Vue {
             padding: 1em 2em
             display: flex
             align-items: center
+            
+            @media (max-width: $query-512)
+                padding: 1em
 
             &__icon
                 margin-right: .5em
                 @media (max-width: $query-768)
                     margin-right: unset
+
 
             &__title
                 @media (max-width: $query-768)

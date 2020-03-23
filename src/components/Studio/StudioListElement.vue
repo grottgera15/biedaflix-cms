@@ -1,5 +1,5 @@
 <template>
-    <li class="studio-list__element">
+    <li class="studio-list__element" :class="{'studio-list__element--not-active': active !== undefined && active === false}">
         <slot />
     </li>
 </template>
@@ -7,6 +7,13 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 
+@Component({
+    props: {
+        active: {
+            type: Boolean
+        }
+    }
+})
 export default class StudioListElement extends Vue {}
 </script>
 

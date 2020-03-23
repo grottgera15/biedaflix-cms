@@ -35,8 +35,9 @@ export default class StudioList extends Vue {
     }
 
     mouseEnter(event: Event) {
-        if (event.srcElement instanceof HTMLElement)
+        if (event.srcElement instanceof HTMLElement) {
             this.$emit("active", event.srcElement.id);
+        }
     }
 
     mouseLeave() {

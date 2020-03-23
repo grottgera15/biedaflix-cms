@@ -1,37 +1,35 @@
 <template>
     <div>
-        <v-studio-list class="series-list" @active="activeSeries = $event">
+        <v-studio-list @active="activeSeries = $event">
             <template v-slot:header>
-                <div class="series-list__header">
-                    <div class="series-list__header__info" @click="titleSorting = !titleSorting">
+                <v-studio-list-header class="header">
+                    <div class="header__info" @click="titleSorting = !titleSorting">
                         Tytuł
                         <v-material-icon>sort</v-material-icon>
                     </div>
-                    <div class="series-list__header__status">Status</div>
-                    <div class="series-list__header__episodes">Odcinki</div>
-                </div>
+                    <div class="header__status">Status</div>
+                    <div class="header__episodes">Odcinki</div>
+                </v-studio-list-header>
             </template>
-            <li
-                class="series-list__element"
-                :class="{'series-list__element--not-active': (activeSeries !== null && _series.id !== activeSeries)}"
-                :id="_series.id"
+            <v-studio-list-element
+                class="element"
                 v-for="_series in seriesSorted"
                 :key="_series.id"
+                :id="_series.id"
+                :active="activeSeries !== null ? activeSeries === _series.id : undefined"
             >
-                <div class="series-list__element__info">
-                    <div class="series-list__element__info__name">{{_series.name}}</div>
-                    <div
-                        class="series-list__element__info__description"
-                    >{{_series.shortDescription}}</div>
+                <div class="element__info">
+                    <div class="element__info__name">{{_series.name}}</div>
+                    <div class="element__info__description">{{_series.shortDescription}}</div>
                 </div>
-                <div class="series-list__element__status">{{_series.seriesStatus}}</div>
+                <div class="element__status">{{_series.seriesStatus}}</div>
                 <div
-                    class="series-list__element__episodes"
+                    class="element__episodes"
                 >{{_series.availableEpisodes}} / {{_series.allEpisodes}}</div>
-                <div>
+                <div class="element__buttons">
                     <i class="material-icons" style="font-size: 1em">edit</i>
                 </div>
-            </li>
+            </v-studio-list-element>
         </v-studio-list>
     </div>
 </template>
@@ -48,12 +46,16 @@ import SeriesStatus from "@/enums/SeriesStatus";
 import { LoadingBus } from "@/events/eventBus";
 
 import MaterialIcon from "@/components/Icons/MaterialIcon.vue";
+import StudioListHeader from "@/components/Studio/StudioListHeader.vue";
 import StudioList from "@/components/Studio/StudioList.vue";
+import StudioListElement from "@/components/Studio/StudioListElement.vue";
 
 @Component({
     components: {
         "v-material-icon": MaterialIcon,
-        "v-studio-list": StudioList
+        "v-studio-list-header": StudioListHeader,
+        "v-studio-list": StudioList,
+        "v-studio-list-element": StudioListElement
     },
     computed: {
         seriesSorted(): Array<SeriesData> {
@@ -88,7 +90,7 @@ export default class StudioSeries extends Vue {
     series = new Array<SeriesData>();
     errors = new Array<ServiceError>();
     SeriesStatus = SeriesStatus;
-    activeSeries: number | null = null;
+    activeSeries: string | null = null;
     titleSorting = true;
 
     setData(series: SeriesData[], error: ServiceError) {
@@ -99,71 +101,53 @@ export default class StudioSeries extends Vue {
 
 <style lang="sass" scoped>
 @import '@/styles/variables'
+.element,
+.header
+    grid-template-columns: 60% 10% 10% 1fr
+    grid-template-areas: "info status episodes buttons"
+    grid-column-gap: .5em
+    grid-row-gap: .5em
 
-.series-list
-    margin: unset
-    padding: unset
-    display: flex
-    flex-direction: column
-    overflow: auto
-    height: 100vh
-    position: relative
+    @media (max-width: $query-1200)
+        grid-template-columns: 50% 20% 20% 1fr
 
-    &__header
-        position: sticky
-        padding: .75em 2em !important
-        color: $white-second-color
-        background-color: $dark-color !important
-        top: 0
-        z-index: 999
+    @media (max-width: $query-768)
+        grid-template-columns: 40% 25% 25% 1fr
 
-        &__info
-            display: flex
-            align-items: center
-            font-weight: bolder
+    @media (max-width: $query-512)
+        grid-template-columns: 1fr
+        grid-template-areas: "info" "buttons"
+
+    &__info
+        grid-area: info
+
+    &__status
+        grid-area: status
+        @media (max-width: $query-512)
+            display: none
+
+    &__episodes
+        grid-area: episodes
+        @media (max-width: $query-512)
+            display: none
+
+    &__buttons
+        grid-area: buttons
+
+.element
+    &__info
+
+        &__name
+            display: block
+            margin: 0
+            padding: 0
+            margin-bottom: 1em
             color: $white-color
-            cursor: pointer
 
-    &__element
-        transition-duration: .2s
-
-    &__element--not-active
-        opacity: .5
-
-    &__element, 
-    &__header
-        padding: 1.5em 2em
-        border-bottom: 1px solid $gray-color
-        display: flex
-        flex-direction: row
-        list-style: none
-        width: calc(100% - 2 * 2em)
-
-        &__info
-            width: calc(30% - 2em)
-            margin-right: 2em
-
-            @media (max-width: $query-1200)
-                width: calc(50% - 1em)
-                margin-right: 1em
-
-            &__name
-                display: block
-                margin: 0
-                padding: 0
-                margin-bottom: 1em
-                color: $white-color
-
-            &__description
-                line-height: 1.5em
-                display: block
-                font-weight: lighter
-                color: $white-second-color
-                font-size: .9em
-
-        &__status
-            min-width: 10%
-
-        &__episodes
-            min-width: 10%
+        &__description
+            line-height: 1.5em
+            display: block
+            font-weight: lighter
+            color: $white-second-color
+            font-size: .9em
 </style>
