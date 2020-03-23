@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="container">
         <slot name="header" />
-        <ol ref="list">
+        <ol class="studio-list" ref="list">
             <slot />
         </ol>
     </div>
@@ -46,7 +46,15 @@ export default class StudioList extends Vue {
 </script>
 
 <style lang="sass" scoped>
-ol
-    margin: 0
-    padding: 0
+@import '@/styles/variables'
+.container
+    overflow: auto
+    position: relative
+    height: 100vh
+
+.studio-list
+    margin: unset
+    padding: unset
+    display: flex
+    flex-direction: column
 </style>
