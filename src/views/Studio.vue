@@ -1,7 +1,9 @@
 <template>
     <div class="studio">
         <v-navigation-column class="studio__navigation-column" />
-        <router-view class="studio__views" />
+        <transition name="fade"  mode="out-in">
+            <router-view class="studio__views" />
+        </transition>
         <v-modal-loading />
     </div>
 </template>
@@ -31,4 +33,12 @@ export default class Studio extends Vue {}
 
     &__views
         width: 100%
+
+.fade
+    &-enter-active, &-leave-active
+        transition-duration: .2s
+        opacity: 1
+
+    &-enter, &-leave-to
+        opacity: 0
 </style>
