@@ -3,6 +3,7 @@ import EpisodeStatus from '@/enums/EpisodeStatus';
 export interface LightEpisodeResponse {
     id: string;
     episodeNumber: number;
+    seasonNumber: number;
     name: string;
     status: EpisodeStatus;
     relaseDate: Date;

@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-const baseURL = 'http://api.biedaflix.pl';
+const baseURL = 'https://my-json-server.typicode.com/grottgera15/biedaflix-test-server';
 
 export default axios.create({
-    baseURL,
-    validateStatus: (status: number) => {
-        return status >= 200 && status < 500
-    }
+    baseURL
 });

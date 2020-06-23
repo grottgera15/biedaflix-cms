@@ -12,5 +12,5 @@ export interface LightSeriesResponse {
 }
 
 export interface FullSeriesResponse extends LightSeriesResponse {
-    seasons: Record<string, Array<LightEpisodeResponse>>;
+    episodes: Record<string, Array<LightEpisodeResponse>>;
 }
