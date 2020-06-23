@@ -1,32 +1,42 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+    <v-app>
+        <v-navigation-drawer clipped app permanent :mini-variant="small">
+            <v-list>
+                <v-list-item-group>
+                    <v-list-item v-for="(path, i) in navigation" :key="i" :to="path.path"> 
+                        <v-list-item-icon>
+                            <v-icon>{{path.icon}}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title v-text="path.name"></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
+
+        <v-app-bar clipped-left app>
+            <v-app-bar-nav-icon @click.stop="small = !small"></v-app-bar-nav-icon>
+            <v-toolbar-title>Biedaflix Panel</v-toolbar-title>
+        </v-app-bar>
+
+        <v-main>
+            <v-container fluid>
+                <router-view></router-view>
+            </v-container>
+        </v-main>
+    </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+import { navigationDrawer } from '@/constants/navigationDrawer';
+
+@Component
+export default class App extends Vue {
+    private small = true;
+    private navigation = navigationDrawer;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+</script>
