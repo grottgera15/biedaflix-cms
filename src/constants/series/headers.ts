@@ -1,4 +1,6 @@
-export const headers = [
+import { DataTableHeader } from 'vuetify';
+
+export const headers: Array<DataTableHeader> = [
     {
         text: 'Akcje',
         sortable: false,

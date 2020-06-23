@@ -1,9 +1,9 @@
 <template>
-    <v-data-table :headers="headers" :items="series">
+    <v-data-table :headers="headers" :items="series" :loading="loading"> 
         <!-- DESCRIPTION -->
         <template v-slot:item.name="{ item }">
             <div class="py-2">
-                <h6 class="text-h6">{{item.name}}</h6>
+                <h6 class="text-subtitle-2">{{item.name}}</h6>
                 <span class="text-caption grey--text text--darken-1">{{item.description}}</span>
             </div>
         </template>
@@ -41,6 +41,7 @@ import { getAll } from '@/services/seriesService';
 export default class Series extends Vue {
     private readonly headers = headers;
     private series: Array<FullSeriesResponse> = [];
+    private loading = true;
 
     async mounted() {
         try {
@@ -48,6 +49,8 @@ export default class Series extends Vue {
             this.series = data;
         } catch (e) {
             console.error(e);
+        } finally {
+            this.loading = false;
         }
     }
 }

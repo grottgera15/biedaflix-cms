@@ -1,12 +1,12 @@
 import { RoleResponse } from './RoleResponse';
 
-interface StandardUserResponse {
+export interface StandardUserResponse {
     id: string;
     email: string;
     username: string;
 }
 
-interface AdministrativeUserResponse extends StandardUserResponse {
+export interface AdministrativeUserResponse extends StandardUserResponse {
     roles: Array<RoleResponse>;
     accepted: boolean;
 }
