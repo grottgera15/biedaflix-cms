@@ -16,7 +16,8 @@ const form: Readonly<Record<string, string>> = {
 
     textAreaMagnetLink: 'Magnet link',
     textAreaMagnetLinkHint: 'Dodanie magnet linku rozpocznie automatyczne pobieranie pliku!',
-    textAreaMagnetLinkValidationRule: 'Podany magnet link jest nie prawidłowy!'
+    textAreaMagnetLinkValidationRule: 'Podany magnet link jest nie prawidłowy!',
+    textAreaMagnetLinkEmptyRule: 'Odcinek musi posiadać magnet link!'
 }
 
 export { form };

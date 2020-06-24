@@ -1,6 +1,6 @@
 import Service from './Service';
 import { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { LightEpisodeResponse, EpisodeRequestBody } from '@/classes/Responses/EpisodeResponses';
+import { LightEpisodeResponse, EpisodeRequestBody, FullEpisodeResponse } from '@/classes/Responses/EpisodeResponses';
 
 const episodeEndPoint = '/episodes';
 
@@ -23,9 +23,18 @@ export async function update(body: FormData, episodeId: string, callback: Functi
     response.status === 200 ? callback(response) : errorCallback(response);
 }
 
-export async function get(episodeId: string, callback: Function, errorCallback: Function) {
-    const response: AxiosResponse = await Service.get(`${episodeEndPoint}/${episodeId}`, axiosRequestConfig);
-    response.status === 200 ? callback(response) : errorCallback(response);
+export async function get(episodeId: string) {
+    const response: AxiosResponse = await Service.get(`${episodeEndPoint}`, axiosRequestConfig);
+    const episodes = response.data as Array<FullEpisodeResponse>;
+    const index = episodes.findIndex(episode => episode.id === episodeId);
+    if (index !== -1) {
+        const timestamp = (typeof episodes[index].releaseDate === 'string') ? parseInt(episodes[index].releaseDate as string) : episodes[index].releaseDate as number;
+        const date = new Date();
+        date.setUTCSeconds(timestamp);
+        episodes[index].releaseDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+        return episodes[index];
+    }
+    throw new Error('Episode with given id does not exist!');
 }
 
 export async function remove(episodeId: string, callback: Function, errorCallback: Function) {

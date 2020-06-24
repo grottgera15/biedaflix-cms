@@ -1,28 +1,36 @@
 <template>
-    <v-data-table :headers="headers" :items="series" :loading="loading">
-        <!-- DESCRIPTION -->
-        <template v-slot:item.name="{ item }">
-            <div class="py-2">
-                <h6 class="text-subtitle-2">{{item.name}}</h6>
-                <span class="text-caption grey--text text--darken-1">{{item.description}}</span>
-            </div>
-        </template>
+    <v-container fluid class="pa-0">
+        <v-row>
+            <v-col class="py-0">
+                <v-data-table :headers="headers" :items="series" :loading="loading">
+                    <!-- DESCRIPTION -->
+                    <template v-slot:item.name="{ item }">
+                        <div class="py-2">
+                            <h6 class="text-subtitle-2">{{item.name}}</h6>
+                            <span
+                                class="text-caption grey--text text--darken-1"
+                            >{{item.description}}</span>
+                        </div>
+                    </template>
 
-        <!-- ACTIONS -->
-        <template v-slot:item.actions="{ item }">
-            <v-tooltip bottom>
-                <template v-slot:activator="{on, attrs}">
-                    <v-btn icon v-bind="attrs" v-on="on" :to="seriesUrl(item.id)">
-                        <v-icon>create</v-icon>
-                    </v-btn>
-                </template>
-                <span>Szczegóły</span>
-            </v-tooltip>
-        </template>
+                    <!-- ACTIONS -->
+                    <template v-slot:item.actions="{ item }">
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{on, attrs}">
+                                <v-btn icon v-bind="attrs" v-on="on" :to="seriesUrl(item.id)">
+                                    <v-icon>create</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Szczegóły</span>
+                        </v-tooltip>
+                    </template>
 
-        <!-- EPISODE AMOUNT -->
-        <template v-slot:item.episodes="{ item }">{{item.episodes.length}}</template>
-    </v-data-table>
+                    <!-- EPISODE AMOUNT -->
+                    <template v-slot:item.episodes="{ item }">{{item.episodes.length}}</template>
+                </v-data-table>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script lang="ts">

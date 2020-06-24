@@ -1,9 +1,9 @@
 <template>
     <v-app>
-        <v-navigation-drawer clipped app permanent :mini-variant="small">
-            <v-list>
+        <v-navigation-drawer clipped app permanent>
+            <v-list dense>
                 <v-list-item-group>
-                    <v-list-item v-for="(path, i) in navigation" :key="i" :to="path.path"> 
+                    <v-list-item v-for="(path, i) in navigation" :key="i" :to="path.path">
                         <v-list-item-icon>
                             <v-icon>{{path.icon}}</v-icon>
                         </v-list-item-icon>
@@ -15,15 +15,13 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar clipped-left app>
-            <v-app-bar-nav-icon @click.stop="small = !small"></v-app-bar-nav-icon>
+        <v-app-bar clipped-left app color="white" class="elevation-1">
+            <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
             <v-toolbar-title>Biedaflix Panel</v-toolbar-title>
         </v-app-bar>
 
         <v-main>
-            <v-container fluid>
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </v-main>
     </v-app>
 </template>
@@ -36,7 +34,7 @@ import { navigationDrawer } from '@/constants/navigationDrawer';
 
 @Component
 export default class App extends Vue {
-    private small = true;
+    // private drawer = true;
     private navigation = navigationDrawer;
 }
 </script>

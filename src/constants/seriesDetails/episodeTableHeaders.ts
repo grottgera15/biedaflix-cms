@@ -2,10 +2,10 @@ import { DataTableHeader } from 'vuetify';
 
 export const headers: Array<DataTableHeader> = [
     {
-        text: 'Stan',
+        text: 'Akcje',
         sortable: false,
-        value: 'status',
-        width: 'fit-content'
+        value: 'actions',
+        width: 'min-content'
     },
     {
         text: 'Tytuł',
@@ -15,6 +15,18 @@ export const headers: Array<DataTableHeader> = [
         divider: true
     },
     {
+        text: 'Stan',
+        sortable: false,
+        value: 'status',
+        width: 'fit-content'
+    },
+    {
+        text: 'Data',
+        sortable: true,
+        value: 'releaseDate',
+        width: 'fit-content',
+        divider: true
+    }, {
         text: 'Odcinek',
         sortable: true,
         value: 'episodeNumber',
@@ -23,11 +35,5 @@ export const headers: Array<DataTableHeader> = [
         sortable: true,
         value: 'seasonNumber',
         width: 'fit-content',
-        divider: true
-    }, {
-        text: 'Data',
-        sortable: true,
-        value: 'releaseDate',
-        width: 'fit-content'
-    },
+    }
 ]

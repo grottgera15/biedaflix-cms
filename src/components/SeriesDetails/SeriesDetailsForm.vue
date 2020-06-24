@@ -1,38 +1,49 @@
 <template>
     <v-form>
-        <div class="d-flex">
-            <v-text-field
-                class="flex-grow-1"
-                style="width: 60%"
-                outlined
-                :value="series.name"
-                :rules="[lengthRule]"
-                :label="form.textFieldTitle"
-                :placeholder="form.textFieldTitlePlaceholder"
-            />
-            <v-combobox
-                class="ml-6 flex-shrink-1"
-                outlined
-                :value="series.status"
-                :items="seriesStatus"
-                :label="form.comboBoxStatus"
-            />
-            <v-combobox
-                class="ml-6 flex-shrink-1"
-                outlined
-                :value="series.status"
-                :items="seriesStatus"
-                :label="form.comboBoxSources"
-            />
-        </div>
-        <v-textarea
-            outlined
-            :value="series.description"
-            :label="form.textAreaDescription"
-            :placeholder="form.textAreaDescriptionPlaceholder"
-            auto-grow
-            :counter="form.textAreaDescriptionCharCounter"
-        />
+        <v-container>
+            <v-row>
+                <v-col cols="6">
+                    <v-text-field
+                        outlined
+                        :value="series.name"
+                        :rules="[lengthRule]"
+                        :label="form.textFieldTitle"
+                        :placeholder="form.textFieldTitlePlaceholder"
+                    />
+                </v-col>
+
+                <v-col cols="3">
+                    <v-combobox
+                        outlined
+                        :value="series.status"
+                        :items="seriesStatus"
+                        :label="form.comboBoxStatus"
+                    />
+                </v-col>
+
+                <v-col cols="3">
+                    <v-combobox
+                        outlined
+                        :value="series.status"
+                        :items="seriesStatus"
+                        :label="form.comboBoxSources"
+                    />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-textarea
+                        outlined
+                        :value="series.description"
+                        :label="form.textAreaDescription"
+                        :placeholder="form.textAreaDescriptionPlaceholder"
+                        auto-grow
+                        :counter="form.textAreaDescriptionCharCounter"
+                    />
+                </v-col>
+            </v-row>
+            <v-divider />
+        </v-container>
     </v-form>
 </template>
 
@@ -53,13 +64,12 @@ export default class SeriesDetailsForm extends Vue {
 
     private seriesStatus = seriesStatusComboBox;
 
-    @Prop({required: true, type: Object})
+    @Prop({ required: true, type: Object })
     readonly series!: FullSeriesResponse;
 
     lengthRule(s: string) {
         if (s.length === 0) return 'Tytuł jest polem wymaganym!';
         return true;
     }
-
 }
 </script>

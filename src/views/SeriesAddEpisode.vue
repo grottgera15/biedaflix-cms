@@ -1,7 +1,9 @@
 <template>
     <v-container fluid v-if="series !== null">
         <v-row>
-            <h5 class="text-h5 font-weight-bold py-3">{{seriesAddEpisode.headline}}</h5>
+            <v-col>
+                <h5 class="text-h5 font-weight-bold">{{seriesAddEpisode.headline}}</h5>
+            </v-col>
         </v-row>
         <v-row>
             <v-col>
@@ -56,13 +58,14 @@
                         :label="form.textAreaMagnetLink"
                         :hint="form.textAreaMagnetLinkHint"
                         v-model="episodeRequest.magnetLink"
-                        :rules="[magnetRule]"
+                        :rules="[magnetRule, magnetRuleLength]"
                     ></v-textarea>
 
                     <v-btn outlined @click="submit">Dodaj</v-btn>
                 </v-form>
             </v-col>
         </v-row>
+        <v-divider />
     </v-container>
 </template>
 
@@ -71,7 +74,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import { seriesAddEpisode } from '@/constants/seriesAddEpisode/seriesAddEpisode';
-import { form } from '@/constants/seriesAddEpisode/seriesAddEpisodeForm';
+import { form } from '@/constants/seriesEpisode/seriesEpisodeForm';
 
 import { get } from '@/services/seriesService';
 import { create } from '@/services/episodeService';
@@ -102,6 +105,7 @@ export default class SeriesAddEpisode extends Vue {
     seasonRule = numericRuleFactory(form.textFieldSeasonNumberLimitRule, 1);
     episodeRule = numericRuleFactory(form.textFieldEpisodeNumberLimitRule, 0);
     magnetRule = magnetLinkRuleFactory(form.textAreaMagnetLinkValidationRule);
+    magnetRuleLength = lengthRuleFactory(form.textAreaMagnetLinkEmptyRule);
 
     async mounted() {
         this.series = await get(this.$route.params.seriesId, {

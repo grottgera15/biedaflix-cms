@@ -4,7 +4,7 @@
         :close-on-content-click="false"
         transition="scale-transition"
         offset-y
-        min-width="25%"
+        min-width="290px"
     >
         <template v-slot:activator="{ on, attrs }">
             <v-text-field
@@ -42,7 +42,7 @@ export default class DateInput extends Vue {
     @Prop({type: String, default: ""})
     value!: string;
 
-    @Prop({type: Array, default: []})
+    @Prop({type: Array, default: () => [], required: false})
     rules!: Array<Function>;
     
 }

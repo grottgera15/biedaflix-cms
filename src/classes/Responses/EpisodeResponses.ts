@@ -6,7 +6,7 @@ export interface LightEpisodeResponse {
     seasonNumber: number;
     name: string;
     status: EpisodeStatus;
-    relaseDate: Date;
+    releaseDate: number | string;
 }
 
 export interface FullEpisodeResponse extends LightEpisodeResponse {
@@ -15,11 +15,7 @@ export interface FullEpisodeResponse extends LightEpisodeResponse {
     thumbs: Array<{ path: string }>;
 }
 
-export interface EpisodeRequestBody {
+export interface EpisodeRequestBody extends Pick<LightEpisodeResponse, 'name' | 'seasonNumber' | 'episodeNumber' | 'releaseDate'> {
     seriesId: string;
-    seasonNumber: number;
-    episodeNumber: number;
-    name: string;
-    releaseDate: Date | string;
     magnetLink: string;
 }

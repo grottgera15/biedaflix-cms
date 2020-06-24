@@ -1,24 +1,26 @@
 <template>
-    <article class="px-3" v-if="series !== null">
-        <h5 class="text-h5 font-weight-bold py-3">{{page.name}}</h5>
-        <v-tabs>
-            <v-tab v-for="(tab, i) in page.tabs" :key="i" :to="tab.to">
-                {{tab.name}}
-            </v-tab>
+    <v-container fluid v-if="series !== null">
+        <v-row>
+            <v-col>
+                <h5 class="text-h5 font-weight-bold">{{page.name}}</h5>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-tabs>
+                    <v-tab v-for="(tab, i) in page.tabs" :key="i" :to="tab.to">{{tab.name}}</v-tab>
 
-            <v-tab-item>
-                <section class="my-6">
-                    <v-series-details-form :series="series" />
-                </section>
-            </v-tab-item>
+                    <v-tab-item>
+                        <v-series-details-form :series="series" />
+                    </v-tab-item>
 
-            <v-tab-item>
-                <section class="my-6">
-                    <v-series-details-episodes :episodes="series.episodes" />
-                </section>
-            </v-tab-item>
-        </v-tabs>
-    </article>
+                    <v-tab-item>
+                        <v-series-details-episodes :episodes="series.episodes" />
+                    </v-tab-item>
+                </v-tabs>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script lang="ts">
