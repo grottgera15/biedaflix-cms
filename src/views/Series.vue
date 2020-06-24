@@ -1,5 +1,5 @@
 <template>
-    <v-data-table :headers="headers" :items="series" :loading="loading"> 
+    <v-data-table :headers="headers" :items="series" :loading="loading">
         <!-- DESCRIPTION -->
         <template v-slot:item.name="{ item }">
             <div class="py-2">
@@ -9,10 +9,10 @@
         </template>
 
         <!-- ACTIONS -->
-        <template v-slot:item.actions>
+        <template v-slot:item.actions="{ item }">
             <v-tooltip bottom>
                 <template v-slot:activator="{on, attrs}">
-                    <v-btn icon v-bind="attrs" v-on="on">
+                    <v-btn icon v-bind="attrs" v-on="on" :to="seriesUrl(item.id)">
                         <v-icon>create</v-icon>
                     </v-btn>
                 </template>
@@ -36,6 +36,7 @@ import {
     FullSeriesResponse
 } from '@/classes/Responses/SeriesResponse';
 import { getAll } from '@/services/seriesService';
+import { RawLocation } from 'vue-router';
 
 @Component
 export default class Series extends Vue {
@@ -52,6 +53,13 @@ export default class Series extends Vue {
         } finally {
             this.loading = false;
         }
+    }
+
+    private seriesUrl(seriesId: string): RawLocation {
+        const route: RawLocation = {
+            path: `${seriesId}`
+        };
+        return route;
     }
 }
 </script>

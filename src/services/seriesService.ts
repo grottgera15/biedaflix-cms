@@ -24,14 +24,18 @@ export async function update(body: FormData, seriesId: string, callback: Functio
     response.status === 200 ? callback(response) : errorCallback(response);
 }
 
-export async function get(params: SeriesGetParams, seriesId: string, callback: Function, errorCallback: Function) {
-    const response: AxiosResponse = await Service.get(`${seriesEndPoint}/${seriesId}?${querify(params)}`, axiosRequestConfig);
-    response.status === 200 ? callback(response) : errorCallback(response);
-}
-
 export async function getAll(params: SeriesGetAllParams) {
     const response: AxiosResponse = await Service.get(`${seriesEndPoint}?${querify(params)}`, axiosRequestConfig);
     return response.data as Array<FullSeriesResponse>;
+}
+
+export async function get(seriesId: string, params: SeriesGetParams): Promise<FullSeriesResponse> {
+    params;
+    const response = await getAll({});
+    const index = response.findIndex(series => series.id === seriesId);
+    if (index === -1)
+        throw new Error('There is no series with that id!');
+    return response[index];
 }
 
 export async function remove (seriesId: string, callback: Function, errorCallback: Function) {
