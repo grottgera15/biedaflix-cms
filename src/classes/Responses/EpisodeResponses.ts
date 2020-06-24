@@ -14,3 +14,12 @@ export interface FullEpisodeResponse extends LightEpisodeResponse {
     subtitles: Record<string, string>;
     thumbs: Array<{ path: string }>;
 }
+
+export interface EpisodeRequestBody {
+    seriesId: string;
+    seasonNumber: number;
+    episodeNumber: number;
+    name: string;
+    releaseDate: Date | string;
+    magnetLink: string;
+}

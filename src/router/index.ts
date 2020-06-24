@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import Series from '@/views/Series.vue';
 import SeriesDetails from '@/views/SeriesDetails.vue';
+import SeriesAddEpisode from '@/views/SeriesAddEpisode.vue';
 import Users from '@/views/Users.vue';
 
 Vue.use(VueRouter)
@@ -14,17 +15,22 @@ const routes = [
         component: Home
     },
     {
-        path: '/Series',
+        path: '/series',
         name: 'Series',
         component: Series
     },
     {
-        path: '/Series/:seriesId',
+        path: '/series/:seriesId',
         name: 'SeriesDetails',
         component: SeriesDetails
     },
     {
-        path: '/Users',
+        path: '/series/:seriesId/addEpisode',
+        name: 'SeriesAddEpisode',
+        component: SeriesAddEpisode
+    },
+    {
+        path: '/users',
         name: 'Users',
         component: Users
     }

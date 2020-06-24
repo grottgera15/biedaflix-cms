@@ -2,18 +2,19 @@
     <article class="px-3" v-if="series !== null">
         <h5 class="text-h5 font-weight-bold py-3">{{page.name}}</h5>
         <v-tabs>
-            <v-tab>{{page.tabDetails}}</v-tab>
-            <v-tab>{{page.tabEpisodes}}</v-tab>
+            <v-tab v-for="(tab, i) in page.tabs" :key="i" :to="tab.to">
+                {{tab.name}}
+            </v-tab>
 
             <v-tab-item>
                 <section class="my-6">
-                    <v-series-details-form :series="series"/>
+                    <v-series-details-form :series="series" />
                 </section>
             </v-tab-item>
 
             <v-tab-item>
                 <section class="my-6">
-                    <v-series-details-episodes :episodes="series.episodes"/>
+                    <v-series-details-episodes :episodes="series.episodes" />
                 </section>
             </v-tab-item>
         </v-tabs>
@@ -42,7 +43,7 @@ export default class SeriesDetails extends Vue {
     private page = seriesDetails;
 
     private series: FullSeriesResponse | null = null;
-    
+
     async mounted() {
         const param = this.$route.params['seriesId'];
         try {
