@@ -1,10 +1,6 @@
 <template>
-    <v-container fluid v-if="series !== null">
-        <v-row>
-            <v-col>
-                <h5 class="text-h5 font-weight-bold">{{seriesAddEpisode.headline}}</h5>
-            </v-col>
-        </v-row>
+    <v-default-layout>
+        <template v-slot:headline>{{seriesAddEpisode.headline}}</template>
         <v-row>
             <v-col>
                 <v-form v-model="valid" ref="form">
@@ -66,7 +62,7 @@
             </v-col>
         </v-row>
         <v-divider />
-    </v-container>
+    </v-default-layout>
 </template>
 
 <script lang="ts">

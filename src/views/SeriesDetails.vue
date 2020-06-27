@@ -1,10 +1,6 @@
 <template>
-    <v-container fluid v-if="series !== null">
-        <v-row>
-            <v-col>
-                <h5 class="text-h5 font-weight-bold">{{page.name}}</h5>
-            </v-col>
-        </v-row>
+    <v-default-layout>
+        <template v-slot:headline>{{page.name}}</template>
         <v-row>
             <v-col>
                 <v-tabs>
@@ -20,7 +16,8 @@
                 </v-tabs>
             </v-col>
         </v-row>
-    </v-container>
+        <v-divider />
+    </v-default-layout>
 </template>
 
 <script lang="ts">
